@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+  <head>
+    <title>iEat</title>
+    <link rel="stylesheet" href="/stylesheets/mainPage.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  </head>
+  <body>
+    <% include ./navBar/navBar.ejs %>
+    
+    <div class="SearchBackGround">
+      <input type="text" class="SearchBox" value placeholder="想搜什麼就搜什麼">
+      <div class="icon">  
+        <a href="./working.html">
+          <img src="/images/search.png" width="38" height="38">
+        </a>
+      </div>
+    </div>
+
+    <div class="filterBar">
+      <span class="filterLabel">篩選條件</span> 
+      <div class="btn-group">
+        <div class="dropdown">
+          <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            星級評等
+            <div class="dropdown-icon">
+              <img src="/images/star.png" width="22" height="22"> 
+            </div>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </div>
+        <div class="pill-dropdown-title dropdown ">
+          <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            價格
+            <div class="dropdown-icon">
+              <img src="/images/price.png" width="22" height="22"> 
+            </div>
+          </button>
+          <div class="dropdown-menu">
+            <div id="slider"></div> 
+            <div id="hslider" style="width:200px;"></div>
+            <p>
+              L: <span id="hslider_value_L"></span>
+              H: <span id="hslider_value_H"></span>
+            </p>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="pill-dropdown-text btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            地點
+            <div class="dropdown-icon">
+              <img src="/images/addr.png" width="22" height="22"> 
+            </div>
+          </button>
+          <div class="dropdown-menu">
+            <li class="checkbox keep-open dropdown-item"><label><input type="checkbox">&nbsp 埔里鎮</label></li>
+            <li class="checkbox keep-open dropdown-item"><label><input type="checkbox">&nbsp 南投市</label></li>
+            <li class="checkbox keep-open dropdown-item"><label><input type="checkbox">&nbsp 草屯鎮</label></li>
+            <li class="checkbox keep-open dropdown-item"><label><input type="checkbox">&nbsp 竹山鎮</label></li>
+            <li class="checkbox keep-open dropdown-item"><label><input type="checkbox">&nbsp 集集鎮</label></li>
+            <li class="checkbox keep-open dropdown-item"><label><input type="checkbox">&nbsp ...</label></li>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="pill-dropdown-text btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            顯示全部
+            <div class="dropdown-icon">
+              <img src="/images/addr.png" width="22" height="22"> 
+            </div>
+          </button>
+          <div class="dropdown-menu wide-dropdown">
+            <p> 其他需求 </p>
+            <div class = "form-check form-check-inline">
+              <li class = "filter-item">
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label">素食</label>
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label">信用卡</label>
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label"> 無障礙</label>
+              </li>
+            </div>
+            <div class = "form-check form-check-inline">
+              <li class = "filter-item">
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label">停車場</label>
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label">需預訂</label>
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label">適合兒童</label>
+              </li>
+            </div>
+            <div class = "form-check form-check-inline">
+              <li class = "filter-item">
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label">只收現金</label>
+              </li>
+            </div>
+            <hr >
+            <p> 菜系/種類 </p>
+            <div class = "form-check form-check-inline">
+              <li class = "filter-item">
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label">美式料理</label>
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label">日式料理</label>
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label">義大利料理</label>
+              </li>
+            </div>
+            <div class = "form-check form-check-inline">
+              <li class = "filter-item">
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label">咖啡廳</label>
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label">甜點</label>
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label">酒吧</label>
+              </li>
+            </div>
+            <div class = "form-check form-check-inline">
+              <li class = "filter-item">
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label">中式料理</label>
+              </li>
+            </div>
+            <hr >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="top-block">
+      <div class="top-item">愛吃食記</div>
+      <div class="top-item">北部 TOP3</div>
+      <div class="top-item">中部 TOP3</div>
+      <div class="top-item">南部 TOP3</div>
+      <div class="top-item">東部 TOP3</div>
+    </div>
+
+    <div>
+      <div class="command-block">我的推薦 1</div>
+      <div class="command-block">我的推薦 2</div>
+      <div class="command-block">我的推薦 3</div>
+      <div class="command-block">我的推薦 4</div>
+      <div class="command-block">我的推薦 5</div>
+    </div>
+
+    <button class="circle">
+      <div class="gmap-icon">
+        <a href="./working.html">
+          <img src="/images/gmap.png" width="38px" height="45px">
+        </a>
+      </div>
+    </button>
+    <!-- bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <!-- slider -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- 自己寫的 -->
+    <script src="/javascripts/mainPage.js"></script>
+  </body>
+</html>

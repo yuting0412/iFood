@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>iEat</title>
+  <link rel="stylesheet" href="stylesheets/mainPage.css">
+</head>
+
+<body>
+  <% include ./navBar/navBar.ejs %>
+
+    <div class="SearchBackGround">
+      <input type="text" class="SearchBox" value placeholder="想搜什麼就搜什麼">
+      <div class="icon">
+        <img src="/images/search.png" width="38" height="38">
+      </div>
+    </div>
+
+    <div class="filterBar">
+      <span class="filterLabel">篩選條件</span>
+      <div class="PillDropdown">
+        <button class="pill-dropdown-title">
+          <div class="dropdown-icon">
+            <img src="/images/num1.png" width="20" height="22">
+          </div>
+          <span class="pill-dropdown-text">人氣選項</span>
+          <div class="dropdown-icon2">
+            <img src="/images/triangular.png" width="10" height="10">
+          </div>
+        </button>
+        <button class="pill-dropdown-title">
+          <div class="dropdown-icon">
+            <img src="/images/price.png" width="22" height="22">
+          </div>
+          <span class="pill-dropdown-text">價格</span>
+          <div class="dropdown-icon2">
+            <img src="/images/triangular.png" width="10" height="10">
+          </div>
+        </button>
+        <button class="pill-dropdown-title">
+          <div class="dropdown-icon">
+            <img src="/images/addr.png" width="22" height="22">
+          </div>
+          <span class="pill-dropdown-text">地點</span>
+          <div class="dropdown-icon2">
+            <img src="/images/triangular.png" width="10" height="10">
+          </div>
+        </button>
+        <button class="pill-dropdown-title">
+          <span class="pill-dropdown-text">顯示全部</span>
+          <div class="dropdown-icon2">
+            <img src="/images/triangular.png" width="10" height="10">
+            <div>
+        </button>
+      </div>
+    </div>
+    <div class="undone">
+      <img src="/images/undone.png" width="200px" height="200px">
+      <a class="re undone-text" href="./">undone</a>
+    </div>
+</body>
+
+</html>
