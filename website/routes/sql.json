@@ -18,5 +18,16 @@
             ]
         ],
         "Des": "更多選項"
+    },
+    "getRes":{
+        "sql" : "select O.resName, O.addr, O.meal, O.cuisine, O.stayTime from Class C, CO , object O where C.CName = @cName and CO.CID = C.CID and CO.OID = O.OID",
+        "input": [
+            [
+                "cName",
+                "NVarChar"
+            ]
+        ],
+        "Des": "符合地區的餐廳"
     }
+
 }

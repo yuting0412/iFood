@@ -1,166 +1,11 @@
-body{ 
-    margin: auto;
-    padding: 0;
-  }
-/* bar */
-.bar{
-  height: 50px;
-  width: 98%;
-  margin-top: 10px; 
-  margin-left: 15px;
-}
-
-.item-container{
-  display: inline;
-  justify-content: flex-end;
-}
-
-.item{
-  float: right;
-  text-align: center;
-  font-weight: bold;
-  color: #a2d2ff;
-  padding: 10px 10px;
-}
-
-.item2{
-  float: right;
-  text-align: center;
-  font-weight: bold;
-  color: #f4a261;
-  padding: 10px 10px;
-  border: 2px solid #f4a261;
-  border-radius: 8px;
-  margin-right: 15px;
-}
-
-.SearchBackGround{
-  height: 65px;
-  width: 100%;
-  background-color: #20274d;
-  display: flex;
-  flex-direction: row;
-}
-
-.SearchBox{
-  height: 40px;
-  width: 20%;
-  font-size: 14px;
-  border-radius: 10px;
-  border-style: none;
-  margin-left: 15px;
-  margin-top: 10px;
-  text-align: center;
-}
-
-.icon{
-  margin-top: 15px;
-  margin-left: 18px;
-}
-
-.filterBar{
-  height: 65px;
-  width: 100%;
-  background-color: white;
-  box-shadow: 0px 0px 10px 0px gray;
-}
-
-.filterLabel{  
-  font-weight: bold;
-  float: left;
-  text-align: center;
-  padding: 18px 15px;
-}
-
-.btn-group{
-  padding-top: 12px;
-}
-
-.dropdown{
-  background-color: #20274d;
-  font-weight: bold;
-  border-radius: 30px;
-  border-style: none;
-  margin-left: 15px;
-}
-
-.dropdown-toggle {
-  color: white !important;
-}
-
-.pill-dropdown-text{
-  padding-left: 6px;
-  padding-right: 8px;
-}
-
-.dropdown-icon{
-  float: left;
-  margin: 5px,0px,5px,0px;
-  align-items: center
-}
-
-.dropdown-icon2{
-  float: right;
-  margin-right: 5px;
-  margin-top: 5px;
-}
-
-.wide-dropdown{
-  width: 500% ;
-}
-
-.form-check{
-  width:100%;
-}
-
-.filter-item{
-  width:100%
-}
-
-.form-check-label{
-  width: 28%;
-}
-
-hr{
-  width: 80%;
-  padding-left: 10%;
-} 
-/* slider */
-#hslider{
-  width: 80%;
-  height: 7px;
-  margin-left: 10%;
-  margin-top: 10px;
-  margin-bottom: 15px;
-}
-
-#priceBar{
-  width: 400%;
-}
-
-#hsliderInput_L, #hsliderInput_H{
-  width: 50%;
-}
-
-.form-check {
-  margin-left: 5%;
-}
-
-.showAllTitle{
-  margin-left: 5%;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
 /* res */
 .res-content {
   display: flex;
   flex-direction: row;
 }
 .left-res-content {
-  float: left;
-  width: 80%;
-  /* border: 5px solid red; */
+  width: 60%;
+  padding-left: 2%;
 }
 
 .top-title-block {
@@ -168,7 +13,6 @@ hr{
   flex-direction: row;
   padding-left: 20px;
   padding-top: 40px;
-  /* border: 5px solid red; */
 }
 
 .top-icon {
@@ -186,15 +30,12 @@ hr{
 .top-res-block {
   margin-top: 10px;
   height: 150px;
-  width: 110%;
-  margin-left: 20px;
+  margin-left: 5%;
   margin-bottom: 15px;
   padding-top: 1px;
   padding-left: 1px;
   padding-bottom: 1px;
-  border-style: solid;
-  border-width: 1px;
-  border-color:  #e9ecef;
+  border: 1px solid #e9ecef;
 }
 
 .top-res-photo {
@@ -296,13 +137,17 @@ hr{
 }
 
 .right-res-content {
-  float: left;
-  padding-left: 80px;
-  /* border: 5px solid red; */
+  width: 160%;
+  padding-left: 2%;
+}
+
+.row{
+  margin-left: 0px !important;
+  flex-wrap: nowrap !important;
 }
 
 .sort-bar {
-  display: flex;
+  display: inline;
   justify-content: row;
   width: 90%;
   margin-top: 20px;
@@ -310,7 +155,6 @@ hr{
   padding-top: 1px;
   padding-bottom: 1px;
   background-color: #dddfe2;
-  /* border: 5px solid red; */
 }
 
 .sort-item-way-block {
@@ -332,32 +176,28 @@ hr{
 }
 
 .sort-item-block {
-  display: flex;
-  justify-content: center;
   background-color: white;
-  padding-left: 24px;
-  padding-right: 23px;
-  width: 18%;
-  /* border: 5px solid red; */
+  padding-top : 1%;
+  padding-bottom : 1%;
+  border-right: 1px solid #dddfe2;
 }
 
 .sort-item {
-  margin-top: 15px;
   color: #6c757d;
   font-weight: bold;
   font-size: 15px;
 }
 
 .command-block {
-  margin-right: 90px;
+  /* margin-right: 90px; */
   margin-top: 30px;
-  margin-bottom: 100px;
+  width: 90%;
 }
 
 .command-item {
   display: flex;
   justify-content: space-between;
-  height: 220px;
+  height: 250px;
   margin-top: 20px;
   padding: 1px 1px 1px 1px;
   background-color: #dddfe2;
@@ -365,44 +205,45 @@ hr{
 
 .left-comment-item-content {
   display: flex;
-  justify-content: column;
-  height: 220px;
-  width: 80%;
+  width: 70%;
   background-color: white;
 }
 
 .right-comment-item-content {
-  height: 220px;
   width: 30%;
   margin-left: 1px;
   background-color: white;
+  position: relative;
 }
 
 .photo-block {
-  width: 42%;
+  width: 40%;
   padding-left: 2px;
 }
 
 .main-photo {
-  width: 91%;
+  width:100%;
+  height: 80%;
+  object-fit: cover;
   padding-top: 1px;
 }
 
 .other-photo-block {
+  height: 20%;
   display: flex;
-  justify-content: row;
 }
+
 .other-photo {
-  display: flex;
-  justify-content: column;
-  width: 22%;
+  width: 25%;
+  object-fit: cover;
+  padding-top: 2px;
   padding-right: 2px;
 }
 
 .res-info {
+  position: relative;
+  width: 70%;
   padding-top: 30px;
-  margin-left: -20px;
-  float: left;
 }
 
 .res-info-text {
@@ -424,7 +265,6 @@ hr{
 
 .res-info-addr {
   padding-left: 7px;
-  padding-bottom: 5px;
   height: 25px;
 }
 
@@ -447,11 +287,8 @@ hr{
 
 .stay-time-block {
   display: flex;
-  justify-content: row;
-  width: 85%;
-  margin-left: 13px;
+  margin-left: 8px;
   padding-left: 3px;
-  background-color: #ecbcfd70;
   border-radius: 2px;
 }
 
@@ -462,6 +299,7 @@ hr{
 .stay-time-text {
   font-size: 14px;
   color: #7b2cbf;
+  background-color: #ecbcfd70;
   font-family: Microsoft JhengHei;
   font-weight: bold;
   padding-left: 5px;
@@ -472,14 +310,16 @@ hr{
   color: red;
   font-family: Microsoft JhengHei;
   font-weight: bold;
-  padding-top: 23px;
-  padding-left: 15px;
+  position:absolute; 
+  bottom : 5px;
+  left: 15px;
 }
 
 .comment-block {
-  float: left;
-  margin-left: 35px;
-  margin-top: 30px;
+  position:absolute; 
+  right: 37%;
+  top: 10%;
+  padding-right: 2px;
   font-family: Microsoft JhengHei;
   font-weight: bold;
   font-size: 14px;
@@ -488,9 +328,9 @@ hr{
 }
 
 .num-tag-block {
-  float: right;
-  margin-right: 35px;
-  margin-top: 10px;
+  position:absolute; 
+  right: 12%;
+  top: 5%;
 }
 
 .num-tag {
@@ -509,9 +349,9 @@ hr{
 }
 
 .time-tag {
-  display: inline;
-  float: right;
-  margin-top: 40px;
+  position: absolute;
+  bottom:35%; 
+  right:1%;
   margin-right: 10px;
   width: 30%;
 }
@@ -544,11 +384,9 @@ hr{
 }
 
 .cost-block {
-  float: right;
-  text-align: right;
-  margin-top: 20px;
-  margin-left: 25px;
-  padding-right: 10px;
+  position: absolute;
+  bottom:1%; 
+  right:5%;
   color: #adb5bd;
   font-weight: bolder;
 }
@@ -609,4 +447,8 @@ a.re2 {
   float: right;
   margin-right: 15px;
   margin-top: 12px;
+}
+
+#pageNum{
+  width:90%;
 }

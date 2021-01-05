@@ -14,3 +14,82 @@
     </div>
   </div>
 </div>
+<div class="SearchBackGround">
+  <input type="text" class="SearchBox" value placeholder="想搜什麼就搜什麼">
+  <div class="icon">  
+    <a href="./working.html">
+      <img src="/images/search.png" width="40" height="35">
+    </a>
+  </div>
+</div>
+
+<div class="filterBar">
+  <span class="filterLabel">篩選條件</span> 
+  <div class="btn-group">
+    <div class="dropdown">
+      <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        星級評等
+        <div class="dropdown-icon">
+          <img src="/images/star.png" width="20" height="22"> 
+        </div>
+      </button>
+      <div class="dropdown-menu" id = "star"></div>
+    </div>
+    <div class="dropdown">
+      <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        價格
+        <div class="dropdown-icon">
+          <img src="/images/price.png" width="22" height="22"> 
+        </div>
+      </button>
+      <div class="dropdown-menu keep-open" id = "priceBar">
+        <div class="container">
+          <div class = "row">
+            <div id="hslider"></div>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <span>下限:</span>
+              <input id="hsliderInput_L" type = "text">
+            </div>
+            <div class="col-3"></div>
+            <div class="col-4">
+              <span>上限:</span>
+              <input id="hsliderInput_H" type = "text">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 載入縣市的鄉鎮市區 -->
+    <div class="dropdown">
+      <button class="pill-dropdown-text btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        地點
+        <div class="dropdown-icon">
+          <img src="/images/addr.png" width="22" height="22"> 
+        </div>
+      </button>
+      <div class="dropdown-menu" id ="town"></div>
+    </div>
+    <!-- 顯示全部 -->
+    <div class="dropdown">
+      <button class="pill-dropdown-text btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        顯示全部
+      </button>
+      <div class="dropdown-menu wide-dropdown" id = "moreChoose"></div>
+
+    </div>
+  </div>
+</div>
+<!-- slider -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- 自己寫的 -->
+<script src="/javascripts/navBar.js"></script>
+<script src="/javascripts/mainPage.js"></script>
+<script>
+  dropdownTown(<%- JSON.stringify(town) %>);
+  dropdownStar(<%- JSON.stringify(star) %>);
+  dropdownSpecial(<%- JSON.stringify(cuisine) %>, '菜系、種類');
+  dropdownSpecial(<%- JSON.stringify(special) %>, '特殊需求');
+</script>
