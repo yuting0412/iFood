@@ -2,7 +2,7 @@
   <a href="/">
     <img src="/images/logo.png" width="110" height="40"> 
   </a>
-  <div class="item-container">   
+  <div class="d-inline">
     <div class="item">
       <a class="re2" href="/working">我是新朋友</a>
     </div>
@@ -30,7 +30,7 @@
       <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         星級評等
         <div class="dropdown-icon">
-          <img src="/images/star.png" width="20" height="22"> 
+          <img src="/images/star.png" width="20" height="22">
         </div>
       </button>
       <div class="dropdown-menu" id = "star"></div>
@@ -69,15 +69,15 @@
           <img src="/images/addr.png" width="22" height="22"> 
         </div>
       </button>
-      <div class="dropdown-menu" id ="town"></div>
+      <div class="dropdown-menu" id ="town">
+      </div>
     </div>
     <!-- 顯示全部 -->
     <div class="dropdown">
       <button class="pill-dropdown-text btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         顯示全部
       </button>
-      <div class="dropdown-menu wide-dropdown" id = "moreChoose"></div>
-
+      <div class="dropdown-menu" id = "moreChoose"></div>
     </div>
   </div>
 </div>
@@ -86,7 +86,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- 自己寫的 -->
 <script src="/javascripts/navBar.js"></script>
-<script src="/javascripts/mainPage.js"></script>
+<script src="/javascripts/indexRes.js"></script>
 <script>
   dropdownTown(<%- JSON.stringify(town) %>);
   dropdownStar(<%- JSON.stringify(star) %>);

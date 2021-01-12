@@ -17,43 +17,38 @@ pool.on('error', err => {
 
 router.use(cors());
 
-router.get('/', async(req, res) => { // '/'是指專案的根目錄路徑
-  let town = { method: 'dropdownBar', cName: '南投縣'} // navBar 的每個欄位
+router.get('/', function(req, res, next) {//首頁
+  res.render('manPage');
+})
+
+router.get('/res', async(req, res) => { // '/'是指專案的根目錄路徑
+  let formData = req.query;
+  let town = { method: 'dropdownBar', cName: formData['town']} // navBar 的每個欄位
   let star = { method: 'dropdownBar', cName: '評分'}
   let cuisine = { method: 'dropdownBar', cName: '菜系、種類'}
   let special = { method: 'dropdownBar', cName: '特殊需求'}
+  let allRes = {method : 'getTownRes', cName: formData['town']} // 縣市的所有餐廳
+  let allTownship = { method: 'dropdownBar', cName: formData['town']} // 縣市的所有鄉鎮市區
   //http://127.0.0.1:3000/?method=selectCity&cName=南投縣
   let townResult = await runSQL(town);
   let starResult = await runSQL(star);
   let cuisineResult = await runSQL(cuisine);
   let specialResult = await runSQL(special);
-  // res.json(cuisineResult)
-  res.render('index', { title: 'Express', town: townResult, star:starResult, special: specialResult, cuisine:cuisineResult});
+  let allResResult = await runSQL(allRes);
+  let allTownshipResult = await runSQL(allTownship);
+  // res.json(formData['city'])
+  res.render('index', { title: 'Express', town: townResult, star:starResult, special: specialResult, cuisine:cuisineResult, allRes:allResResult, allTownship:allTownshipResult});
 });
 
 // 負責接 ajax
-router.get('/getCityRes', async(req, res) => {
-  let city = req.query;
-  let townRes = await runSQL(city);
-  // console.log(city);
+router.get('/getTownshipRes', async(req, res) => {
+  let town = req.query;
+  let townRes = await runSQL(town);
   res.send(townRes);
 })
 
 router.get('/work', function(req, res, next) {
   res.render('work', { title: 'Express'});
-});
-
-router.get('/res', async(req, res, next) => {
-  let town = { method: 'dropdownBar', cName: '南投縣'}
-  let star = { method: 'dropdownBar', cName: '評分'}
-  let cuisine = { method: 'dropdownBar', cName: '菜系、種類'}
-  let special = { method: 'dropdownBar', cName: '特殊需求'}
-  //http://127.0.0.1:3000/?method=selectCity&cName=南投縣
-  let townResult = await runSQL(town);
-  let starResult = await runSQL(star);
-  let cuisineResult = await runSQL(cuisine);
-  let specialResult = await runSQL(special);
-  res.render('res', { title: 'Express', town: townResult, star:starResult, special: specialResult, cuisine:cuisineResult});
 });
 
 const runSQL = async (allreq) => {
@@ -71,11 +66,5 @@ const runSQL = async (allreq) => {
   const result = await request.query(sqlQuery);
   return result.recordset;
 }
-
-router.get('/getapi', async (req, res) => {
-  let allreq = req.query;
-  let response = await runSQL(allreq);
-  res.json(response)
-});
 
 module.exports = router;

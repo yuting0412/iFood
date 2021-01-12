@@ -1,27 +1,28 @@
-var page = 1;
-var pageResCount = 10;
+var page = 1; //在第幾頁
+var pageResCount = 10; // 一頁有幾間餐廳
+var allResResult; // 整個縣市的所有餐廳
 var resResult; // 符合選項的選項的餐廳資料
-$.ajax({ //進入頁面就自動執行
-    method: 'GET',
-    contentType: 'application/json',
-    url: '/getCityRes',
-    data: { method: 'getRes',cName : '埔里鎮'},
-    success: function (result) {
-      resResult = result
-      reloadPage();
-    }, error: function (result) {
-      console.log(result);
-    }
-  })
+var namePath; // 路徑
+var allTownshipLen; // 整個縣市有多少鄉鎮市區
+function getRes(allRes, allTownship){ //只有一開始會進來
+  resResult = allRes;
+  allResResult = allRes;
+  namePath = allRes[0]['NamePath'].split("/"); // 放上面的 namePath
+  reloadPage();
+}
+
 function reloadPage(){
-  let htmlStr = "";
-  if (Object.keys(resResult).length - pageResCount*(page-1) > 10){
+  if (namePath.length == 3){
+    resResult = JSON.parse(JSON.stringify(allResResult)); 
+  }
+  reloadNamePath();
+  htmlStr = ""; // 放餐廳
+  if (resResult.length - pageResCount*(page-1) > 10){
     pageRes = 10;
   }else{
-    pageRes = Object.keys(resResult).length - pageResCount*(page-1);
+    pageRes = resResult.length - pageResCount*(page-1);
   }
-  console.log(pageRes);
-  for (var i = 0; i < pageRes; i++){
+  for (let i = 0; i < pageRes; i++){
     htmlStr +=`
     <div class="command-item">
     <div class="left-comment-item-content">
@@ -118,21 +119,32 @@ function reloadPage(){
     </div>
   </div>`;
   }
-  $('#res').html(htmlStr);
-  pageStr = `
+  $('#res').html(htmlStr); //下面放頁碼
+  pageStr = ` 
   <div class = "col-2 border text-center" id = "backPage" onclick="backPage()">上一頁</div>
   <div class = "col-1"></div>
   <div class = "col-1 border text-center" id="pageNum_1" onclick="goToPage(this.id)">1</div>` //第一頁頁碼
-  var totalPage = Math.ceil(Object.keys(resResult).length/pageResCount);
-  if (totalPage < 6){ // 如果少於 6 頁
-    for (var i = 1; i < 7; i++){
+  var totalPage = Math.ceil(resResult.length/pageResCount);
+  if (totalPage < 6){ // 小於 6 頁
+    for (let i = 2; i < totalPage+1; i++){
       pageStr += `<div class = "col-1 border text-center" id="pageNum_`;
       pageStr += i;
       pageStr += `" onclick="goToPage(this.id)">`;
       pageStr += i;
       pageStr += `</div>`;
     }
-  }else{
+    for (let i = totalPage+1; i < 7; i++){
+      pageStr += '<div class = "col-1"></div>'
+    }
+  }else if (totalPage == 6){ // 如果等於 6 頁
+    for (let i = 2; i < 7; i++){
+      pageStr += `<div class = "col-1 border text-center" id="pageNum_`;
+      pageStr += i;
+      pageStr += `" onclick="goToPage(this.id)">`;
+      pageStr += i;
+      pageStr += `</div>`;
+    }
+  }else if (totalPage > 6){ // 超過 6 頁
     if (page <= 3){
       pageStr += `
       <div class = "col-1 border text-center" id="pageNum_2" onclick="goToPage(this.id)">2</div>
@@ -141,7 +153,7 @@ function reloadPage(){
       <div class = "col-1 border text-center">...</div>`;
     }else if ((totalPage - page) > 3){
       pageStr += `<div class = "col-1 border text-center">...</div>`
-      for (var i = page; i < page + 2; i++){
+      for (let i = page; i < page + 2; i++){
         pageStr += `<div class = "col-1 border text-center" id="pageNum_`;
         pageStr += i;
         pageStr += `" onclick="goToPage(this.id)">`;
@@ -151,7 +163,7 @@ function reloadPage(){
       pageStr += `<div class = "col-1 border text-center">...</div>`
     }else{
       pageStr += `<div class = "col-1 border text-center">...</div>`
-      for (var i = totalPage-3; i < totalPage; i++){
+      for (let i = totalPage-3; i < totalPage; i++){
         pageStr += `<div class = "col-1 border text-center" id="pageNum_`;
         pageStr += i;
         pageStr += `" onclick="goToPage(this.id)">`;
@@ -159,38 +171,101 @@ function reloadPage(){
         pageStr += `</div>`;
       }
     }
+    pageStr += `<div class = "col-1 border text-center" id="pageNum_`; // 最後一頁頁碼
+    pageStr += totalPage;
+    pageStr += `" onclick="goToPage(this.id)">`;
+    pageStr += totalPage;
   }
-  pageStr += `<div class = "col-1 border text-center" id="pageNum_`; // 最後一頁頁碼
-  pageStr += totalPage;
-  pageStr += `" onclick="goToPage(this.id)">`;
-  pageStr += totalPage;
   pageStr += `
   </div>
   <div class = "col-1"></div>
   <div class = "col-2 border text-center" id = "nextPage" onclick="nextPage()">下一頁</div>
   </div>`
   $('#pageNum').html(pageStr);
-  if (page == 1){
+  if (page == 1){ 
     $(`#backPage`).css("color", "Gainsboro");
   }
   if (page == totalPage){
     $(`#nextPage`).css("color", "Gainsboro");
   }
-  $(`#pageNum_${page}`).css("background-color", "black");
+  $(`#pageNum_${page}`).css("background-color", "black"); // 更改頁碼顏色
   $(`#pageNum_${page}`).css("color", "white");
 }
-function townCheck(id) {
-    // console.log(id);
+
+function reloadNamePath(){ //上面那行 namePath
+  let htmlStr = "";
+  for (let i = 0; i < 2; i++){
+    htmlStr += namePath[i];
+    htmlStr += " > ";
+  }
+  htmlStr += namePath[2];
+  if (namePath.length == 3){ //沒有選任何地區
+    htmlStr += " > ";
+    htmlStr += "全部鄉鎮市區";
+  }else if (namePath.length > 3){
+    htmlStr += " > ";
+    for (let i = 3; i < namePath.length - 1; i++){
+      htmlStr += namePath[i];
+      htmlStr += ", ";
+    }
+    htmlStr += namePath[namePath.length -1];
+  }
+  htmlStr += " (";
+  htmlStr += resResult.length;
+  htmlStr += ")"
+  $('#namePath').html(htmlStr);
+}
+
+function townshipCheck(id) {
     $.ajax({
       method: 'GET',
       contentType: 'application/json',
-      url: '/getCityRes',
-      data: { method: 'getRes',cName : id},
+      url: '/getTownshipRes',
+      data: { method: 'getTownshipRes',cName : id},
       success: function (result) {
-        console.log(resResult);
-        console.log(result);
-        Object.assign(resResult, result);
-        console.log(resResult);
+        if ($(`#${id}`).prop("checked") == false){ // 如果沒 check
+          let count = 0;
+          $('#town').children().children(':checkbox').each(function(){
+            if ($(this).prop("checked") == true){ //先檢查有幾個被勾起來
+              count++;
+            }
+          });
+          if (count == 0){ // 如果全部都沒被選
+            namePath.splice(3);
+          }else{
+            for (let i = 0; i < namePath.length; i++){ // 就把這個鄉鎮市區從 namePath 移除
+              if (namePath[i] == id){
+                namePath.splice(i,1);
+              }
+            }
+            for (let i = 0 ; i < result.length; i++){ // 把餐廳從 resResult 移除
+              for (let j = 0 ; j < resResult.length; j++){
+                if (result[i].resName == resResult[j].resName){
+                  resResult.splice(j,1);
+                  break;
+                }
+              }
+            }
+          }
+        }else{ // 如果有 check
+          let count = 0;
+          let id = "";
+          $('#town').children().children(':checkbox').each(function(){
+            if ($(this).prop("checked") == true){ //先檢查有幾個被勾起來
+              id = $(this).attr('id')
+              count++;
+            }
+           })
+          if (count == 1){ //如果只有一個
+            namePath.splice(3);
+            resResult = JSON.parse(JSON.stringify(result)); 
+          }else{
+            for (let i = 0 ; i < result.length; i++){ // 餐廳加入 resResult
+              resResult.push(result[i]);
+            }
+          }
+          namePath.push(id); // 加入namePath
+        }
         page = 1;
         reloadPage();
       }, error: function (result) {
@@ -199,13 +274,13 @@ function townCheck(id) {
     })
   }
 
-function backPage(){
+function backPage(){ //前一頁
   if (page == 1){
     return;
   }
   page -= 1;
-  reloadPage()
-  for (var i = 0; i < 5; i++){
+  reloadPage();
+  for (let i = 0; i < 5; i++){
     $(`#pageNum_${i}`).css("background-color", "white");
     $(`#pageNum_${i}`).css("color", "black");
   }
@@ -213,13 +288,13 @@ function backPage(){
   $(`#pageNum_${page}`).css("color", "white");
 }
 
-function nextPage(){
-  if (Math.ceil(Object.keys(resResult).length/pageResCount)){
+function nextPage(){ //下一頁
+  if (page == Math.ceil(resResult.length/pageResCount)){
     return;
   }
   page += 1;
-  reloadPage()
-  for (var i = 0; i < 5; i++){
+  reloadPage();
+  for (let i = 0; i < 5; i++){
     $(`#pageNum_${i}`).css("background-color", "white");
     $(`#pageNum_${i}`).css("color", "black");
   }
@@ -227,11 +302,11 @@ function nextPage(){
   $(`#pageNum_${page}`).css("color", "white");
 }
 
-function goToPage(p){
+function goToPage(p){ //跳到某頁
   p = p.replace("pageNum_","");
   page = parseInt(p);
   reloadPage()
-  for (var i = 0; i < 5; i++){
+  for (let i = 0; i < 5; i++){
     $(`#pageNum_${i}`).css("background-color", "white");
     $(`#pageNum_${i}`).css("color", "black");
   }

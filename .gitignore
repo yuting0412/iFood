@@ -3,3 +3,4 @@ chromedriver.exe
 dbconfig.json
 debug.log
 _pycache_
+sqlClass.py

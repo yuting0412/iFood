@@ -57,7 +57,7 @@ def findRestaurantInfo(url,sqlResInfo, table): #抓餐廳詳細資訊
                 sqlResInfo = sqlResInfo + "None ,"
                 c+=1 #下一欄位
                 continue
-            sqlResInfo = sqlResInfo + "'" + info[i].text +"'," #印此比資料的內容
+            sqlResInfo = sqlResInfo + "'" + info[i].text + "'," #印此比資料的內容
             c+=1
             i+=1
     except:
@@ -119,7 +119,6 @@ def search(town, table):
     except Exception as e:
         print(e)
         print("can not find page")
-    
 
 def main():
     print ("請輸入地名: ", end = "")

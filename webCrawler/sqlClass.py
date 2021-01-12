@@ -3,7 +3,7 @@ from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey, Boo
 from sqlalchemy import inspect, NVARCHAR 
 
 #engine = create_engine("mssql+pyodbc://@localhost/demo?driver=SQL+Server+Native+Client+11.0;TRUSTED_CONNECTION = TRUE;charset=utf8;convert_unicode=TRUE")
-engine = create_engine("mssql+pyodbc://sa:food@10.21.20.197:1433/final?driver=SQL+Server+Native+Client+11.0;TRUSTED_CONNECTION = TRUE;charset=utf8;convert_unicode=TRUE")
+engine = create_engine("mssql+pyodbc://sa:food@10.21.20.197:1433/iEat?driver=SQL+Server+Native+Client+11.0;TRUSTED_CONNECTION = TRUE;charset=utf8;convert_unicode=TRUE")
 metadata = MetaData()
 
 class Counties:

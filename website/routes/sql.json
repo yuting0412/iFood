@@ -1,14 +1,4 @@
 {
-    "selectCID": {
-        "sql": "select * from Class where CID = @cid",
-        "input": [
-            [
-                "cid",
-                "Int"
-            ]
-        ],
-        "Des": "Des是說明：method為selectCID，sql為要查詢的sql語句，input為要輸入的參數與sql型別"
-    },
     "dropdownBar": {
         "sql": "select C.CName from Class P, Class C, Inheritance I where P.CName = @cName and I.PCID = P.CID and I.CCID = C.CID",
         "input": [
@@ -17,9 +7,9 @@
                 "NVarChar"
             ]
         ],
-        "Des": "更多選項"
+        "Des": "navBar 的選項或是縣市下面有哪些鄉鎮市區"
     },
-    "getRes":{
+    "getTownshipRes":{
         "sql" : "select O.resName, O.addr, O.meal, O.cuisine, O.stayTime from Class C, CO , object O where C.CName = @cName and CO.CID = C.CID and CO.OID = O.OID",
         "input": [
             [
@@ -27,7 +17,17 @@
                 "NVarChar"
             ]
         ],
-        "Des": "符合地區的餐廳"
+        "Des": "符合鄉鎮市區的餐廳(ex:埔里鎮)"
+    },
+    "getTownRes":{
+        "sql" : "select P.NamePath, O.resName, O.addr, O.meal, O.cuisine, O.stayTime from class P, class C, CO, object O, Inheritance I where P.CName = @cName and P.CID = I.PCID and I.CCID = C.CID and C.CID = CO.CID and CO.OID = O.OID;",
+        "input": [
+            [
+                "cName",
+                "NVarChar"
+            ]
+        ],
+        "Des": "符合縣市的餐廳(ex:南投縣)"
     }
 
 }

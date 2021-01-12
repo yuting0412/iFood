@@ -10,11 +10,6 @@ body{
   margin-left: 15px;
 }
 
-.item-container{
-  display: inline;
-  justify-content: flex-end;
-}
-
 .item{
   float: right;
   text-align: center;
@@ -78,6 +73,7 @@ body{
 
 #town{
   height: 500%;
+  overflow-x: hidden;
   overflow-y: scroll;
 }
 
@@ -110,8 +106,15 @@ body{
   margin-top: 5px;
 }
 
-.wide-dropdown{
+#moreChoose{
   width: 500% ;
+  height: 500%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+#townTitle, .cleanAll{
+  font-size: 10px;
 }
 
 .form-check-label{
