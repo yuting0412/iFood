@@ -86,10 +86,11 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- 自己寫的 -->
 <script src="/javascripts/navBar.js"></script>
-<script src="/javascripts/indexRes.js"></script>
 <script>
   dropdownTown(<%- JSON.stringify(town) %>);
   dropdownStar(<%- JSON.stringify(star) %>);
-  dropdownSpecial(<%- JSON.stringify(cuisine) %>, '菜系、種類');
+  dropdownSpecial(<%- JSON.stringify(meal) %>, '餐點');
+  dropdownSpecial(<%- JSON.stringify(resType) %>, '種類');
+  dropdownSpecial(<%- JSON.stringify(cuisine) %>, '菜系');
   dropdownSpecial(<%- JSON.stringify(special) %>, '特殊需求');
 </script>

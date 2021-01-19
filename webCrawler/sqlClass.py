@@ -115,19 +115,21 @@ class object:
     self.object = Table('object', metadata,
       Column('OID', Integer, primary_key=True, mssql_identity_start=0,mssql_identity_increment=1),
       Column('resName', NVARCHAR(255)),
+      Column('tag', NVARCHAR(255)),
       Column('country', NVARCHAR(255)),
       Column('town', NVARCHAR(255)),
       Column('addr', NVARCHAR(255)),
       Column('tel', NVARCHAR(255)),
+      Column('webLite', NVARCHAR(255)),
       Column('fb', NVARCHAR(255)),
       Column('businessHour', NVARCHAR(255)),
       Column('stayTime', NVARCHAR(255)),
-      Column('menu', NVARCHAR(255)),
       Column('meal', NVARCHAR(255)),
       Column('cuisine', NVARCHAR(255)),
-      Column('price', NVARCHAR(255)),
-      Column('limit', NVARCHAR(255)),
+      Column('style', NVARCHAR(255)),
       Column('attribute', NVARCHAR(255)),
+      Column('price', NVARCHAR(255)),
+      Column('menu', NVARCHAR(255)),
       Column('busyTime', NVARCHAR(255)),
       Column('closed', NVARCHAR(255)),
     )
@@ -138,5 +140,5 @@ class object:
     with engine.begin() as conn:
       result = conn.execute(select([self.object]))
       for re in result:
-        info.append([re.OID, re.town, re.meal, re.cuisine, re.price, re.limit, re.attribute])
+        info.append([re.OID, re.town, re.tag, re.meal, re.cuisine, re.style, re.price, re.attribute])
       return info

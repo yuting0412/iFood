@@ -25,19 +25,23 @@ router.get('/res', async(req, res) => { // '/'是指專案的根目錄路徑
   let formData = req.query;
   let town = { method: 'dropdownBar', cName: formData['town']} // navBar 的每個欄位
   let star = { method: 'dropdownBar', cName: '評分'}
-  let cuisine = { method: 'dropdownBar', cName: '菜系、種類'}
+  let meal = { method: 'dropdownBar', cName: '餐點'}
+  let resType = { method: 'dropdownBar', cName: '種類'}
+  let cuisine = { method: 'dropdownBar', cName: '菜系'}
   let special = { method: 'dropdownBar', cName: '特殊需求'}
   let allRes = {method : 'getTownRes', cName: formData['town']} // 縣市的所有餐廳
   let allTownship = { method: 'dropdownBar', cName: formData['town']} // 縣市的所有鄉鎮市區
   //http://127.0.0.1:3000/?method=selectCity&cName=南投縣
   let townResult = await runSQL(town);
   let starResult = await runSQL(star);
+  let mealResult = await runSQL(meal);
+  let resTypeResult = await runSQL(resType);
   let cuisineResult = await runSQL(cuisine);
   let specialResult = await runSQL(special);
   let allResResult = await runSQL(allRes);
   let allTownshipResult = await runSQL(allTownship);
-  // res.json(formData['city'])
-  res.render('index', { title: 'Express', town: townResult, star:starResult, special: specialResult, cuisine:cuisineResult, allRes:allResResult, allTownship:allTownshipResult});
+  // res.json(resTypeResult)
+  res.render('index', { title: 'Express', town: townResult, star:starResult, meal:mealResult, resType:resTypeResult, special: specialResult, cuisine:cuisineResult, allRes:allResResult, allTownship:allTownshipResult});
 });
 
 // 負責接 ajax

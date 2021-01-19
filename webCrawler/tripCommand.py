@@ -10,8 +10,7 @@ options = webdriver.ChromeOptions()
 options.add_argument('lang=UTF-8') # 更換header
 browser = webdriver.Chrome()
 
-def user(): # 放 user 資料
-
+def user(resInfo): # 放 user 資料
     try: #抓所有 user 資料
         user = browser.find_elements_by_xpath('//div[@class="info_text pointer_cursor"]/div[1]') #user name
         userName = []
@@ -28,22 +27,19 @@ def user(): # 放 user 資料
         print(e)
         
 
-
-
-def command(sqlInfo):# 一頁的評論 & 星星
-    # title .noQuotes
+def command(resInfo):# 一頁的評論 & 星星
     time.sleep(10)
     try: # 關廣告
         browser.find_element_by_css_selector('._2cMt8_9M').click()
     except:
-        print(end = "")
+        print("not find ad")
     time.sleep(10)
     try : # 按更多
         clickMore = browser.find_element_by_xpath('//*[@id="review_774690683"]/div/div[2]/div[2]/div/p/span[2]')
         clickMore.click()
         time.sleep(3)
     except:
-        print()
+        print("can not find more choose")
         
     try : # 抓title & content
         title = browser.find_elements_by_css_selector('.noQuotes')
@@ -60,15 +56,44 @@ def command(sqlInfo):# 一頁的評論 & 星星
                 commentList.append(c.text)
             flag = 0
     except:
-        print()
-        
+        print("can not find title & content")
+
     try: # 抓評分(星星)
         score = browser.find_elements_by_xpath("//div[@class='ui_column is-9']/span[contains(@class, 'ui_bubble_rating')]")
         allScore = [] #全部評分的星星數
         for s in score:
             allScore.append(s.get_attribute('class')[24])
     except:
-        print()
+        print("can not find star")
+
+    try: # 抓評論時間
+        comTime = browser.find_elements_by_css_selector('.ratingDate')
+        allComTime = []
+        for t in comTime:
+            day = t.text[:t.text.find("日") + 1]
+            allComTime.append(day)
+    except:
+        print("not find time")
+
+    # try: # 抓讚數
+
+    # except:
+
+    # try: #整理資料
+    #     for i in range(len(title)):
+    #         sqlInfo = resInfo
+    #         sqlInfo += "'Score':'"
+    #         sqlInfo += allScore[i]
+    #         sqlInfo += "','Title':'"
+    #         sqlInfo += title[i].text
+    #         sqlInfo += "','Command':'"
+    #         sqlInfo += commentList[i]
+    #         sqlInfo += "','VisitTime':'",
+            # sqlInfo += allComTime[i]
+    #         print(sqlInfo)
+    # except:
+    #     print()
+
 
 
 def main():
@@ -79,9 +104,10 @@ def main():
     #     browser.get(resInfo[i][1]) # 餐廳
     #     sqlInfo = "{'RID':" + str(resInfo[i][0]) +"," # 紀錄餐廳RID
     #     command(sqlInfo)
+    resInfo = ""
     browser.get("https://www.tripadvisor.com.tw/Restaurant_Review-g13806800-d6726254-Reviews-Montreal_Style_Restaurant-Puli_Nantou.html")
-    command(123)
-    user()
+    command(resInfo)
+    # user()
 
 
 if __name__ == '__main__':

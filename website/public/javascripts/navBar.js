@@ -44,51 +44,16 @@ function dropdownTown(town) { // 鄉鎮市區
   }
 }
 
-function dropdownSpecial(special, name) { //其他需求
-  let cuisine = [];
-  name = name.split('、');
+function dropdownSpecial(special, name) { //顯示全部
   let htmlStr = "";
-  if (name.length > 1){
-    let count = JSON.parse(JSON.stringify(special)); // 深層複製
-    for (let i = 0; i < special.length; i++){ // 把有料理兩個字的挑出來
-      if (special[i]['CName'].includes("料理")){
-        cuisine.push(special[i]['CName']);
-        for (let j = 0; j < count.length; j++){
-          if (count[j]['CName'] == special[i]['CName']){
-            count.splice(j,1);
-          }
-        }
-      }
-    }
-    special = JSON.parse(JSON.stringify(count)); // 資料庫要改!!!!!!
-    htmlStr += '<div class = "mt-2 mb-1 row"><label class="col-6 pr-1 pl-3">';
-    htmlStr += name[0];
-    htmlStr += '</label><botton class="col text-primary text-right cleanAll" type="botton" onclick="cleanAll(this)">清除全部</botton></div>';
-    htmlStr += '</div><div class = "pl-4 pr-4 row">'
-    for (let i = 0; i < cuisine.length; i++) {
-      htmlStr += '<label class="form-check-label col-4"><input class="form-check-input" type="checkbox" id="';
-      htmlStr += cuisine[i];
-      htmlStr += '">';
-      htmlStr += cuisine[i];
-      htmlStr += '</label>';
-      if (i % 3 == 2 || i == cuisine.length-1) { //3個滿了要換行 或是 剛好最後一個
-        htmlStr += '</div>';
-        if (i != cuisine.length-1){
-          htmlStr += '<div class = "pl-4 pr-4 row">';
-        }
-      }
-    }
-    htmlStr += '<hr>'; 
-  }
-  htmlStr += '<div class = "m-3">';
-  if (name.length > 1){
-    htmlStr += name[1];
-  }else{
-    htmlStr += name;
-  }
-  htmlStr += '</div><div class = "pl-4 pr-4 row">'
+  htmlStr += '<div id = "';
+  htmlStr += name;
+  htmlStr += '"><div class = "mt-2 mb-1 row"><label class="col-6 pr-1 pl-3">';
+  htmlStr += name;
+  htmlStr += '</label><botton class="col text-primary text-right cleanAll" type="botton" onclick="cleanAll(this)">清除全部</botton></div>';
+  htmlStr += '<div class = "pl-4 pr-4 row">'
   for (let i = 0; i < special.length; i++) {
-    htmlStr += '<label class="form-check-label col-4"><input class="form-check-input" type="checkbox" id="';
+    htmlStr += '<label class="form-check-label col-4"><input class="form-check-input" type="checkbox" onchange="specialCheck(this.id)" id="';
     htmlStr += special[i]['CName'];
     htmlStr += '">';
     htmlStr += special[i]['CName'];
@@ -100,21 +65,11 @@ function dropdownSpecial(special, name) { //其他需求
       }
     }
   }
-  htmlStr += '<hr>';
+  htmlStr += '<hr></div>'; 
   $('#moreChoose').append(htmlStr);
 }
 
-// $(document).ready(function() { // 取消全部 checkbox
-//   $("#townCleanAll").click(function(){
-//     // $('#town').children().children(':checkbox').prop("checked",false);
-//     $('#town').children().children(':checkbox').each(function(){
-//       $(this).prop("checked",false);//把所有的核方框的 property 都取消勾選
-//       townshipCheck($(this).attr('id')); // 找到 checkbox 的 id (鄉鎮市區), 然後移除餐廳
-//      })
-//   });
-// })
-
-function cleanAll(my){
+function cleanAll(my){ // 清除全部
   let parentId = my.parentNode.parentNode.id;
   if (parentId == "town"){
     $(`#${parentId}`).children().children(':checkbox').each(function(){
@@ -124,7 +79,7 @@ function cleanAll(my){
   }else{
     $(`#${parentId}`).children().children().children(':checkbox').each(function(){
       $(this).prop("checked",false);//把所有的核方框的 property 都取消勾選
-      townshipCheck($(this).attr('id')); // 找到 checkbox 的 id (鄉鎮市區), 然後移除餐廳
+      specialCheck($(this).attr('id')); // 找到 checkbox 的 id (鄉鎮市區), 然後移除餐廳
      })
   }
 }

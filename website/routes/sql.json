@@ -10,7 +10,7 @@
         "Des": "navBar 的選項或是縣市下面有哪些鄉鎮市區"
     },
     "getTownshipRes":{
-        "sql" : "select O.resName, O.addr, O.meal, O.cuisine, O.stayTime from Class C, CO , object O where C.CName = @cName and CO.CID = C.CID and CO.OID = O.OID",
+        "sql" : "select O.resName, O.addr, O.meal, O.cuisine, O.style, O.stayTime from Class C, CO , object O where C.CName = @cName and CO.CID = C.CID and CO.OID = O.OID",
         "input": [
             [
                 "cName",
@@ -20,7 +20,7 @@
         "Des": "符合鄉鎮市區的餐廳(ex:埔里鎮)"
     },
     "getTownRes":{
-        "sql" : "select P.NamePath, O.resName, O.addr, O.meal, O.cuisine, O.stayTime from class P, class C, CO, object O, Inheritance I where P.CName = @cName and P.CID = I.PCID and I.CCID = C.CID and C.CID = CO.CID and CO.OID = O.OID;",
+        "sql" : "select P.NamePath, O.resName, O.addr, O.meal, O.cuisine, O.style, O.stayTime from class P, class C, CO, object O, Inheritance I where P.CName = @cName and P.CID = I.PCID and I.CCID = C.CID and C.CID = CO.CID and CO.OID = O.OID;",
         "input": [
             [
                 "cName",

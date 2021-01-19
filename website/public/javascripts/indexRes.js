@@ -1,19 +1,29 @@
 var page = 1; //在第幾頁
 var pageResCount = 10; // 一頁有幾間餐廳
 var allResResult; // 整個縣市的所有餐廳
-var resResult; // 符合選項的選項的餐廳資料
+var resResult; // 符合選項的餐廳資料
+var townResult; // 符合鄉鎮市區的餐廳
+var specialResult; //符合特殊需求的餐廳
+var specialChoose; // 全部的特殊需求
 var namePath; // 路徑
 var allTownshipLen; // 整個縣市有多少鄉鎮市區
 function getRes(allRes, allTownship){ //只有一開始會進來
-  resResult = allRes;
+  townResult = allRes;
   allResResult = allRes;
   namePath = allRes[0]['NamePath'].split("/"); // 放上面的 namePath
+  specialResult = [];
+  specialChoose = [];
   reloadPage();
 }
 
 function reloadPage(){
   if (namePath.length == 3){
-    resResult = JSON.parse(JSON.stringify(allResResult)); 
+    townResult = JSON.parse(JSON.stringify(allResResult)); 
+  }
+  if (specialChoose.length > 0){
+    resResult = resAndSpecial();
+  }else{
+    resResult = townResult;
   }
   reloadNamePath();
   htmlStr = ""; // 放餐廳
@@ -45,14 +55,16 @@ function reloadPage(){
     htmlStr += `
     </div>
     <img src="/images/exRes/star.png" class="res-info-star">`;
-    if (resResult[(page-1)*pageResCount + i]['cuisine'] != "None" && resResult[(page-1)*pageResCount + i]['cuisine'] != null && resResult[(page-1)*pageResCount + i]['meal'] != "None" && resResult[(page-1)*pageResCount + i]['meal'] != null){
+    if (resResult[(page-1)*pageResCount + i]['cuisine'] != "None" || resResult[(page-1)*pageResCount + i]['meal'] != "None" || resResult[(page-1)*pageResCount + i]['style'] != "None"){
       htmlStr += `<div class="res-info-tag" id = "resCuisine`;
       htmlStr += ((page-1)*pageResCount + i);
       htmlStr += '">';
-      if (resResult[(page-1)*pageResCount + i]['cuisine'] != "None" && resResult[(page-1)*pageResCount + i]['cuisine'] != null){
+      if (resResult[(page-1)*pageResCount + i]['cuisine'] != "None"){
         htmlStr += resResult[(page-1)*pageResCount + i]['cuisine'];
-      }else{
+      }if (resResult[(page-1)*pageResCount + i]['meal'] != "None"){
         htmlStr += resResult[(page-1)*pageResCount + i]['meal'];
+      }if (resResult[(page-1)*pageResCount + i]['style'] != "None"){
+        htmlStr += resResult[(page-1)*pageResCount + i]['style'];
       }
       htmlStr += `</div>`;
     }
@@ -119,77 +131,8 @@ function reloadPage(){
     </div>
   </div>`;
   }
-  $('#res').html(htmlStr); //下面放頁碼
-  pageStr = ` 
-  <div class = "col-2 border text-center" id = "backPage" onclick="backPage()">上一頁</div>
-  <div class = "col-1"></div>
-  <div class = "col-1 border text-center" id="pageNum_1" onclick="goToPage(this.id)">1</div>` //第一頁頁碼
-  var totalPage = Math.ceil(resResult.length/pageResCount);
-  if (totalPage < 6){ // 小於 6 頁
-    for (let i = 2; i < totalPage+1; i++){
-      pageStr += `<div class = "col-1 border text-center" id="pageNum_`;
-      pageStr += i;
-      pageStr += `" onclick="goToPage(this.id)">`;
-      pageStr += i;
-      pageStr += `</div>`;
-    }
-    for (let i = totalPage+1; i < 7; i++){
-      pageStr += '<div class = "col-1"></div>'
-    }
-  }else if (totalPage == 6){ // 如果等於 6 頁
-    for (let i = 2; i < 7; i++){
-      pageStr += `<div class = "col-1 border text-center" id="pageNum_`;
-      pageStr += i;
-      pageStr += `" onclick="goToPage(this.id)">`;
-      pageStr += i;
-      pageStr += `</div>`;
-    }
-  }else if (totalPage > 6){ // 超過 6 頁
-    if (page <= 3){
-      pageStr += `
-      <div class = "col-1 border text-center" id="pageNum_2" onclick="goToPage(this.id)">2</div>
-      <div class = "col-1 border text-center" id="pageNum_3" onclick="goToPage(this.id)">3</div>
-      <div class = "col-1 border text-center" id="pageNum_4" onclick="goToPage(this.id)">4</div>
-      <div class = "col-1 border text-center">...</div>`;
-    }else if ((totalPage - page) > 3){
-      pageStr += `<div class = "col-1 border text-center">...</div>`
-      for (let i = page; i < page + 2; i++){
-        pageStr += `<div class = "col-1 border text-center" id="pageNum_`;
-        pageStr += i;
-        pageStr += `" onclick="goToPage(this.id)">`;
-        pageStr += i;
-        pageStr += `</div>`;
-      }
-      pageStr += `<div class = "col-1 border text-center">...</div>`
-    }else{
-      pageStr += `<div class = "col-1 border text-center">...</div>`
-      for (let i = totalPage-3; i < totalPage; i++){
-        pageStr += `<div class = "col-1 border text-center" id="pageNum_`;
-        pageStr += i;
-        pageStr += `" onclick="goToPage(this.id)">`;
-        pageStr += i;
-        pageStr += `</div>`;
-      }
-    }
-    pageStr += `<div class = "col-1 border text-center" id="pageNum_`; // 最後一頁頁碼
-    pageStr += totalPage;
-    pageStr += `" onclick="goToPage(this.id)">`;
-    pageStr += totalPage;
-  }
-  pageStr += `
-  </div>
-  <div class = "col-1"></div>
-  <div class = "col-2 border text-center" id = "nextPage" onclick="nextPage()">下一頁</div>
-  </div>`
-  $('#pageNum').html(pageStr);
-  if (page == 1){ 
-    $(`#backPage`).css("color", "Gainsboro");
-  }
-  if (page == totalPage){
-    $(`#nextPage`).css("color", "Gainsboro");
-  }
-  $(`#pageNum_${page}`).css("background-color", "black"); // 更改頁碼顏色
-  $(`#pageNum_${page}`).css("color", "white");
+  $('#res').html(htmlStr);
+  pageNum(); // 放頁碼
 }
 
 function reloadNamePath(){ //上面那行 namePath
@@ -216,13 +159,30 @@ function reloadNamePath(){ //上面那行 namePath
   $('#namePath').html(htmlStr);
 }
 
+function resAndSpecial(){
+  var ansRes = [];
+  for (let i = 0 ; i < specialResult.length; i++){ // 檢查餐廳是否已經存在
+    let flag = 0;
+    for (let j = 0 ; j < townResult.length; j++){ 
+      if (specialResult[i].resName == townResult[j].resName){
+        flag = 1;
+        break;
+      }
+    }
+    if (flag == 1){
+      ansRes.push(specialResult[i]);
+    }
+  }
+  return ansRes;
+}
+
 function townshipCheck(id) {
     $.ajax({
       method: 'GET',
       contentType: 'application/json',
       url: '/getTownshipRes',
       data: { method: 'getTownshipRes',cName : id},
-      success: function (result) {
+      success: function (result) { //result : 符合目前改變狀態條件的餐廳
         if ($(`#${id}`).prop("checked") == false){ // 如果沒 check
           let count = 0;
           $('#town').children().children(':checkbox').each(function(){
@@ -238,10 +198,10 @@ function townshipCheck(id) {
                 namePath.splice(i,1);
               }
             }
-            for (let i = 0 ; i < result.length; i++){ // 把餐廳從 resResult 移除
-              for (let j = 0 ; j < resResult.length; j++){
-                if (result[i].resName == resResult[j].resName){
-                  resResult.splice(j,1);
+            for (let i = 0 ; i < result.length; i++){ // 把餐廳從 townResult 移除
+              for (let j = 0 ; j < townResult.length; j++){
+                if (result[i].resName == townResult[j].resName){
+                  townResult.splice(j,1);
                   break;
                 }
               }
@@ -258,10 +218,10 @@ function townshipCheck(id) {
            })
           if (count == 1){ //如果只有一個
             namePath.splice(3);
-            resResult = JSON.parse(JSON.stringify(result)); 
+            townResult = JSON.parse(JSON.stringify(result)); 
           }else{
-            for (let i = 0 ; i < result.length; i++){ // 餐廳加入 resResult
-              resResult.push(result[i]);
+            for (let i = 0 ; i < result.length; i++){ // 餐廳加入 townResult
+              townResult.push(result[i]);
             }
           }
           namePath.push(id); // 加入namePath
@@ -274,42 +234,55 @@ function townshipCheck(id) {
     })
   }
 
-function backPage(){ //前一頁
-  if (page == 1){
-    return;
-  }
-  page -= 1;
-  reloadPage();
-  for (let i = 0; i < 5; i++){
-    $(`#pageNum_${i}`).css("background-color", "white");
-    $(`#pageNum_${i}`).css("color", "black");
-  }
-  $(`#pageNum_${page}`).css("background-color", "black");
-  $(`#pageNum_${page}`).css("color", "white");
-}
-
-function nextPage(){ //下一頁
-  if (page == Math.ceil(resResult.length/pageResCount)){
-    return;
-  }
-  page += 1;
-  reloadPage();
-  for (let i = 0; i < 5; i++){
-    $(`#pageNum_${i}`).css("background-color", "white");
-    $(`#pageNum_${i}`).css("color", "black");
-  }
-  $(`#pageNum_${page}`).css("background-color", "black");
-  $(`#pageNum_${page}`).css("color", "white");
-}
-
-function goToPage(p){ //跳到某頁
-  p = p.replace("pageNum_","");
-  page = parseInt(p);
-  reloadPage()
-  for (let i = 0; i < 5; i++){
-    $(`#pageNum_${i}`).css("background-color", "white");
-    $(`#pageNum_${i}`).css("color", "black");
-  }
-  $(`#pageNum_${page}`).css("background-color", "black");
-  $(`#pageNum_${page}`).css("color", "white");
+function specialCheck(id){
+  $.ajax({
+    method: 'GET',
+    contentType: 'application/json',
+    url: '/getTownshipRes',
+    data: { method: 'getTownshipRes',cName : id},
+    success: function (result) { //result : 符合目前改變狀態條件的餐廳
+      if ($(`#${id}`).prop("checked") == false){ // 如果沒 check
+        for (let i = 0; i < specialChoose.length; i++){ // 從 specialChoose 移除
+          if (specialChoose[i] == id){
+            specialChoose.splice(i,1);
+          }
+        }
+        for (let i = 0; i < specialResult.length; i++){ //目前全部符合其他要求的餐廳
+          if (specialResult[i].meal.includes(id) || specialResult[i].cuisine.includes(id) || specialResult[i].style.includes(id)){ // 如果有包含取消的id
+            let flag = 0;
+            for (let j = 0; j < specialChoose.length; j++){
+              // 如果包含其他選項
+              if ( specialResult[i].meal.includes(specialChoose[j]) || specialResult[i].cuisine.includes(specialChoose[j]) || specialResult[i].style.includes(specialChoose[j])){
+                flag = 1;
+                break;
+              }
+            }
+            if (flag == 0){ // 只有要移除的id
+              specialResult.splice(i,1);
+              i-=1; //前一個刪掉了 要往回一個
+            }
+          }
+        }
+      }else{ // 如果有 check
+        specialChoose.push(id);
+        for (let i = 0 ; i < result.length; i++){ // 檢查餐廳是否已經存在
+          let flag = 0;
+          for (let j = 0 ; j < specialResult.length; j++){ 
+            if (result[i].resName == specialResult[j].resName){
+              flag = 1;
+              break;
+            }
+          }
+          if (flag == 0){
+            specialResult.push(result[i]);
+          }
+        }
+      }
+      console.log(specialChoose);
+      page = 1;
+      reloadPage();
+    }, error: function (result) {
+      console.log(result);
+    }
+  })
 }
